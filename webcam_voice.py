@@ -31,7 +31,7 @@ def say(words):
     google_url = "http://translate.google.com/translate_tts?tl=en&q=%s"
     subprocess.call(["mplayer", google_url % words])
 
-def hear(length=2):
+def hear(length=3):
     with sr.Microphone() as source:
         audio = r.record(source, length)
         try:
