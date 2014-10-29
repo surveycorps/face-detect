@@ -2,7 +2,6 @@ import cv2
 import os
 import sys
 import time
-#from skimage.measure import structural_similarity as ssim
 from nrmse import nrmse
 
 cascPath = sys.argv[1]
