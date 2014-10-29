@@ -3,7 +3,6 @@ import os
 import sys
 import time
 
-import wolframalpha
 import subprocess
 import speech_recognition as sr
 
