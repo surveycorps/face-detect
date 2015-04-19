@@ -31,10 +31,14 @@ def say(words):
     google_url = "http://translate.google.com/translate_tts?tl=en&q=%s"
     subprocess.call(["mplayer", google_url % words])
 
-def hear(length=5):
+def hear(length=2):
     with sr.Microphone() as source:
         audio = r.record(source, length)
-        return r.recognie(audio)
+        try:
+            query = r.recognize(audio)
+            return query
+        except LookupError:
+            return ""
 
 def get_ssim(src, target_path):
     cv2.imwrite('src.png', cv2.resize(src, FSIZE))
@@ -43,7 +47,7 @@ def get_ssim(src, target_path):
     avg = (float(r) + float(g) + float(b))/3
     return avg
 
-say("Hello my name is App rho. I'm new at recognizing faces!")
+say("Hello my name is App rho. I'm new at recognizing faces! Let's give it a try.")
 
 while True:
     # Read some arbitrary amount of frames to clear the buffer
@@ -71,7 +75,7 @@ while True:
         query = hear()
         query = query.lower().strip() 
 
-	if query == "yes":
+	if "yes" in query:
             # Calculate highest similarity metric
 	    scores = []
 	    for k, v in known.items():
@@ -81,13 +85,17 @@ while True:
 	    result = max(scores)
 	    print "You are " + str(result[1]) + " with certainty " + str(result[0])
             say("Hello " + result[1])
-	elif query == "no":
+	elif "no" in query: 
             say("What is your name?")
             person = hear()
+            while person == "":
+                say("I didn't catch that.")
+                person = hear() 
 	    known[person] = person + ".png" 
 	    cv2.imwrite(person + ".png", cv2.resize(frame[y:y+h,x:x+w], FSIZE ))
             say("I'll remember you " + person)
 	else:
+            print(query)
 	    say("Sorry, I didn't understand you")
 #	print "Detected face with " + str(score)
         break
