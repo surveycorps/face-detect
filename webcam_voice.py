@@ -10,7 +10,7 @@ import speech_recognition as sr
 r = sr.Recognizer()
 
 # Import the Haar Classifier
-cascPath = "haarcascade_frontalface_default.xml"
+cascPath = "apps/face-detect/haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 
 # Initialize the video capture stream
